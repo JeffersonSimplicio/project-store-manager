@@ -16,4 +16,4 @@ async function getById(id) {
 module.exports = {
   getAll,
   getById,
-};
+}; 
