@@ -1,13 +1,20 @@
 const productsService = require('../services/productsService');
 
 async function getAll(_req, res) {
-  const products = await productsService.getAll();
-  // return { code: 200, data: products };
-  res.status(200).json(products);
+  const { code, data } = await productsService.getAll();
+  res.status(code).json(data);
 }
 
-// getAll().then((teste) => console.log('controller: ', teste));
+async function getById(req, res) {
+  const { id } = req.params;
+  const { code, data, message } = await productsService.getById(id);
+  if (message) {
+    return res.status(code).json(message);
+  }
+  res.status(code).json(data);
+}
 
 module.exports = {
   getAll,
+  getById,
 };
