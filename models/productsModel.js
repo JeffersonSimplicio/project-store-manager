@@ -14,8 +14,6 @@ async function getById(id) {
   return products;
 }
 
-// getById(2).then((teste) => console.log(teste)); Array
-
 module.exports = {
   getAll,
   getById,
