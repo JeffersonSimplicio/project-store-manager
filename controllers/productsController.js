@@ -14,7 +14,14 @@ async function getById(req, res) {
   res.status(200).json(products);
 }
 
+async function addProduct(req, res) {
+  const { name } = req.body;
+  const products = await productsService.addProduct(name);
+  res.status(201).json(products);
+}
+
 module.exports = {
   getAll,
   getById,
+  addProduct,
 };
