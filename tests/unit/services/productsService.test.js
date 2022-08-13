@@ -11,6 +11,14 @@ describe("Testando productsService; ", () => {
       Sinon.restore();
     });
     it("é retornado um array", async () => {
+      const resultExecute = [];
+      Sinon.stub(productsModel, "getAll").resolves(resultExecute);
+
+      const result = await productsService.getAll();
+
+      expect(result).to.be.an("array");
+    });
+    it('retorna todos os produtos do banco de dados',async () => {
       const resultExecute = [
         {
           id: 1,
@@ -29,8 +37,8 @@ describe("Testando productsService; ", () => {
 
       const result = await productsService.getAll();
 
-      expect(result).to.be.an("array");
-    });
+      expect(result).to.be.deep.equal(resultExecute);
+    })
   });
   describe("Testando getById de produtos: ", () => {
     afterEach(() => {
@@ -58,6 +66,20 @@ describe("Testando productsService; ", () => {
 
       expect(result).to.be.an("object");
       expect(result).to.be.deep.equal({ id: 1, name: "Martelo de Thor" });
+    });
+  });
+  describe("Testando addProduct de produtos: ", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it('retorna o novo produto com "id" e "name"', async () => {
+      const resultExecute = { id: 4, name: "productX" };
+      Sinon.stub(productsModel, "addProduct").resolves(resultExecute);
+
+      const result = await productsService.addProduct("productX");
+
+      expect(result).to.be.an("object");
+      expect(result).to.be.deep.equal(resultExecute);
     });
   });
 });

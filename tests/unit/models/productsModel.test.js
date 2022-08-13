@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const { describe, Test } = require("mocha");
+const { describe, Test, it } = require("mocha");
 const Sinon = require("sinon");
 
 const productsModel = require("../../../models/productsModel");
@@ -58,7 +58,7 @@ describe("Testando productsModel; ", () => {
 
       expect(result).to.have.lengthOf(1);
     });
-    it("Retorna o produto com id certo", async () => {
+    it("retorna o produto com id certo", async () => {
       const resultExecute = [
         {
           id: 1,
@@ -69,7 +69,21 @@ describe("Testando productsModel; ", () => {
 
       const result = await productsModel.getById();
       
-      expect(result[0].id).to.be.equal(1);
+      expect(result[0]).to.be.deep.equal({ id: 1, name: "Martelo de Thor" });
+    });
+  });
+
+  describe("Testando addProduct de produtos: ", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it('retorna o produto adicionado com o id ', async () => {
+      const resultExecute = { insertId: 4 };
+      Sinon.stub(connection, "execute").resolves([resultExecute]);
+
+      const result = await productsModel.addProduct("productX");
+
+      expect(result).to.be.deep.equal({ id: 4, name: "productX" });
     });
   });
 });

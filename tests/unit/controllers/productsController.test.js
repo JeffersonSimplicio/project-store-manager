@@ -76,4 +76,27 @@ describe("Testando productsController; ", () => {
     expect(res.status.calledOnce).to.be.true;
     });
   });
+
+  describe("Testando addProduct de produtos: ", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("retorna o status 201 e o um objeto", async () => {
+      const req = {};
+      const res = {};
+
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+      req.body = { name: "produtoX" };
+      const resultExecute = { id: 4, name: "produtoX" };
+
+      Sinon.stub(productsService, "addProduct").resolves(resultExecute);
+
+      await productsController.addProduct(req, res);
+
+      expect(res.status.calledWith(201)).to.be.equal(true);
+      expect(res.json.calledWith(resultExecute)).to.be.deep.equal(true);
+      expect(res.status.calledOnce).to.be.true;
+    });
+  });
 });
