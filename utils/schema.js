@@ -14,7 +14,4 @@ function validator(schema, body) {
   return { data };
 }
 
-console.log(validator(schemaNewProduct, { }).message);
-console.log(validator(schemaNewProduct, { }).message.length);
-
 module.exports = { validator, schemaNewProduct };
