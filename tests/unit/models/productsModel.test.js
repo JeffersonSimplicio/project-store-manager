@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const { describe, Test, it } = require("mocha");
+const { describe } = require("mocha");
 const Sinon = require("sinon");
 
 const productsModel = require("../../../models/productsModel");
