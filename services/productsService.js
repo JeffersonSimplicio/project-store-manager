@@ -27,9 +27,18 @@ async function update(id, newName) {
   return product;
 }
 
+async function remove(id) {
+  const productCheck = await getById(id);
+  if (productCheck.message) {
+    return productCheck;
+  }
+  await productsModel.remove(id);
+}
+
 module.exports = {
   getAll,
   getById,
   addProduct,
   update,
+  remove,
 }; 
