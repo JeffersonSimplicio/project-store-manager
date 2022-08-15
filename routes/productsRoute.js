@@ -14,5 +14,6 @@ router.post(
   rescue(validation.validationNewProduct),
   rescue(productsController.addProduct),
 );
+router.put('/:id');
 
 module.exports = router; 

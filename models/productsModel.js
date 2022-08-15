@@ -15,6 +15,8 @@ async function getById(id) {
   return products;
 }
 
+// getById(1).then((test) => console.log(test[0])); // retorna array
+
 async function addProduct(nameProduct) {
   const [{ insertId }] = await connection.execute(
     'INSERT INTO StoreManager.products (name) VALUES (?)',
@@ -23,8 +25,23 @@ async function addProduct(nameProduct) {
   return { id: insertId, name: nameProduct };
 }
 
+async function update(id, newName) {
+  await connection.execute(
+    `UPDATE
+      StoreManager.products
+    SET
+      name = ?
+    WHERE
+      id = ?;`,
+    [newName, id],
+  );
+  const editedProduct = getById(id);
+  return editedProduct[0];
+}
+
 module.exports = {
   getAll,
   getById,
   addProduct,
+  update,
 };
