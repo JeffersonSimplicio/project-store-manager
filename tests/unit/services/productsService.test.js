@@ -82,4 +82,30 @@ describe("Testando productsService; ", () => {
       expect(result).to.be.deep.equal(resultAddProduct);
     });
   });
+  describe("Testando update: ", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("retorna mensagem de erro caro o id não exista", async () => {
+      const resultGetById = []; //{ id: 1, name: 'Martelo de Thor' }
+      Sinon.stub(productsModel, "getById").resolves(resultGetById);
+
+      const result = await productsService.update(15, "productX");
+
+      expect(result).to.be.an("object");
+      expect(result).to.be.deep.equal({ message: "Product not found" });
+    });
+    it("retorna um objeto com id e o novo nome do produto", async () => {
+      const resultGetById = [{ id: 1, name: "Martelo de Thor" }];
+      Sinon.stub(productsModel, "getById").resolves(resultGetById);
+
+      const resultUpdate = { id: 1, name: "productX" };
+      Sinon.stub(productsModel, "update").resolves(resultUpdate);
+
+      const result = await productsService.update(1, "productX");
+
+      expect(result).to.be.an("object");
+      expect(result).to.be.deep.equal(resultUpdate);
+    });
+  });
 });
