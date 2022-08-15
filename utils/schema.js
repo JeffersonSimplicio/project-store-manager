@@ -1,6 +1,6 @@
 const joi = require('joi');
 
-const schemaNewProduct = joi.object().keys({
+const schemaProduct = joi.object().keys({
   name: joi.string().min(5).required(),
 });
 
@@ -26,4 +26,8 @@ function validator(schema, body) {
   return { data };
 }
 
-module.exports = { validator, schemaNewProduct, schemaNewSale };
+module.exports = {
+  validator,
+  schemaProduct,
+  schemaNewSale,
+};

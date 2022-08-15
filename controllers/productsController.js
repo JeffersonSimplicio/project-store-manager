@@ -20,8 +20,24 @@ async function addProduct(req, res) {
   res.status(201).json(products);
 }
 
+async function update(req, res) {
+  const { id } = req.params;
+  const { name } = req.body;
+
+  const product = await productsService.update(id, name);
+
+  console.log('Valor retornado pela função: ', product);
+
+  if (product.message) {
+    return res.status(404).json(product);
+  }
+   
+  res.status(200).json(product);
+}
+
 module.exports = {
   getAll,
   getById,
   addProduct,
+  update,
 };
