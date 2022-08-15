@@ -6,6 +6,14 @@ async function getAll() {
   return result;
 }
 
+async function getById(id) {
+  const sale = await salesModel.getById(id);
+  if (sale.length === 0) {
+    return { message: 'Sale not found' };
+  }
+  return sale;
+}
+
 async function newSale(shoppingList) {
   const products = await Promise
     .all(shoppingList.map((sale) => productsModel.getById(sale.productId)));
@@ -28,5 +36,6 @@ async function newSale(shoppingList) {
 
 module.exports = {
   getAll,
+  getById,
   newSale,
 };
