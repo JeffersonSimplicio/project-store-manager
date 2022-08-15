@@ -15,7 +15,7 @@ async function getById(id) {
   return products;
 }
 
-// getById(1).then((test) => console.log(test)); // retorna array
+// getById(1).then((test) => console.log(test));
 
 async function addProduct(nameProduct) {
   const [{ insertId }] = await connection.execute(
@@ -36,7 +36,7 @@ async function update(id, newName) {
     [newName, id],
   );
   const editedProduct = await getById(id);
-  return editedProduct[0];
+  return editedProduct[0]; // retorna objeto
 }
 
 module.exports = {
