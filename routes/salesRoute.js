@@ -12,6 +12,6 @@ router.post('/',
   rescue(salesController.newSale));
 
 router.get('/', salesController.getAll);
-router.get('/:id');
+router.get('/:id', salesController.getById);
 
 module.exports = router; 

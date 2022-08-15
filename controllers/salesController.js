@@ -5,7 +5,14 @@ async function getAll(_req, res) {
   res.status(200).json(sales);
 }
 
-// async function getById() {}
+async function getById(req, res) {
+  const { id } = req.params;
+  const sale = await salesService.getById(id);
+  if (sale.message) {
+    return res.status(404).json(sale);
+  }
+  res.status(200).json(sale);
+}
 
 async function newSale(req, res) {
   const shoppingList = req.body;
@@ -18,6 +25,6 @@ async function newSale(req, res) {
 
 module.exports = {
   getAll,
-  // getById,
+  getById,
   newSale,
 };
