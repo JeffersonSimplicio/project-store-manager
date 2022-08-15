@@ -99,4 +99,59 @@ describe("Testando productsController; ", () => {
       expect(res.status.calledOnce).to.be.true;
     });
   });
+  describe("Testando update", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("é retornada apenas uma resposta: ", async () => {
+      const req = {};
+      const res = {};
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+      req.params = { id: 1 };
+      req.body = { name: "produtoX" };
+
+      const returnUpdate = { message: "Product not found" };
+      Sinon.stub(productsService, "update").resolves(returnUpdate);
+
+      await productsController.update(req, res);
+
+      expect(res.status.calledOnce).to.be.true;
+    });
+    it('é enviado o status 404 com uma mensagem de erro', async () => {
+      const req = {};
+      const res = {};
+
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+      req.params = { id: 1 };
+      req.body = { name: "produtoX" };
+
+      const returnUpdate = { message: "Product not found" };
+      Sinon.stub(productsService, "update").resolves(returnUpdate);
+
+      await productsController.update(req, res);
+
+      expect(res.status.calledWith(404)).to.be.equal(true);
+      expect(res.json.calledWith(returnUpdate)).to.be.deep.equal(true);
+    });
+    it("envia o status 200 e um objeto com os dados do produto já modificado",
+      async () => {
+        const req = {};
+        const res = {};
+
+        res.status = Sinon.stub().returns(res);
+        res.json = Sinon.stub().returns();
+        req.params = { id: 1 };
+        req.body = { name: "produtoX" };
+
+        const returnUpdate = { id: 1, name: "Martelo do Batman" };
+        Sinon.stub(productsService, "update").resolves(returnUpdate);
+
+        await productsController.update(req, res);
+
+        expect(res.status.calledWith(200)).to.be.equal(true);
+        expect(res.json.calledWith(returnUpdate)).to.be.deep.equal(true);
+      });
+  });
 });
