@@ -37,9 +37,20 @@ async function update(id, newName) {
   return editedProduct[0]; // retorna objeto
 }
 
+async function remove(id) {
+  await connection.execute(
+    `DELETE FROM
+      StoreManager.products
+    WHERE
+      id = ?;`,
+    [id],
+  );
+}
+
 module.exports = {
   getAll,
   getById,
   addProduct,
   update,
+  remove,
 };
