@@ -128,4 +128,14 @@ describe("Testando productsModel; ", () => {
       expect(result).to.be.deep.equal({ id: 1, name: "Martelo de Batman" });
     });
   });
+  describe("Testando remove de products", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("a função 'execute' é chamada apenas uma vez", async () => {
+      Sinon.stub(connection, "execute").resolves();
+      await productsModel.remove();
+      expect(connection.execute.calledOnce).to.be.true;
+    });
+  });
 });
