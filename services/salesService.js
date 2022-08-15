@@ -13,6 +13,7 @@ async function newSale(shoppingList) {
   await Promise.all(
     shoppingList.map((sale) => salesModel.linkBuyProducts(idSale, sale)),
   );
+  
   const result = {
     id: idSale,
     itemsSold: shoppingList,
