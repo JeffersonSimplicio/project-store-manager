@@ -19,6 +19,10 @@ async function addProduct(nameProduct) {
 }
 
 async function update(id, newName) {
+  const productCheck = await getById(id);
+  if (productCheck.message) {
+    return productCheck;
+  }
   const product = await productsModel.update(id, newName);
   return product;
 }
