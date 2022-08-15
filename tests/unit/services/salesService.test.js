@@ -10,6 +10,19 @@ describe("Testando salesService; ", () => {
     afterEach(() => {
       Sinon.restore();
     });
+    it("Ao receber uma lista de items, em que o product Id não existe retorna uma mensagem de erro", async () => {
+      const shoppingList = [
+        { productId: 1, quantity: 1 },
+        { productId: 15, quantity: 5 },
+      ];
+      const resultGetByIdOne = [{ "id": 1, "name": "Martelo de Thor" }];
+      const resultGetByIdTwo = [];
+      Sinon.stub(Promise, "all").resolves([resultGetByIdOne, resultGetByIdTwo]);
+      
+      const result = await salesServices.newSale(shoppingList);
+      
+      expect(result).to.be.deep.equal({ message: "Product not found" });
+    });
     it("a função linkBuyProducts é chamada quantas vezes forem necessárias",
       async () => {
         const resultAddSale = 4;
