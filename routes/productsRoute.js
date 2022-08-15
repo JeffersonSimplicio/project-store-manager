@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 // require('express-async-errors');
 const rescue = require('../utils/rescue');
+
 const productsController = require('../controllers/productsController');
 const validation = require('../middlewares/validationNewProduct');
  

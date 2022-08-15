@@ -6,8 +6,13 @@ const schemaNewProduct = joi.object().keys({
 
 const schemaNewSale = joi.array().items(
   joi.object().keys({
-    productId: joi.number().required(),
-    quantity: joi.number().min(1).required(),
+    productId: joi.number().required().messages({
+      'any.required': '"productId" is required',
+    }),
+    quantity: joi.number().min(1).required().messages({
+      'any.required': '"quantity" is required',
+      'number.min': '"quantity" must be greater than or equal to 1',
+    }),
   }),
 );
 

@@ -1,6 +1,14 @@
 const salesModel = require('../models/salesModel');
+const productsModel = require('../models/productsModel');
 
 async function newSale(shoppingList) {
+  const products = await Promise
+    .all(shoppingList.map((sale) => productsModel.getById(sale.productId)));
+
+  if (products.some((product) => product.length === 0)) {
+    return { message: 'Product not found' };
+  }
+
   const idSale = await salesModel.addSale();
   await Promise.all(
     shoppingList.map((sale) => salesModel.linkBuyProducts(idSale, sale)),
@@ -11,18 +19,6 @@ async function newSale(shoppingList) {
   };
   return result;
 }
-
-// const teste = [
-//   {
-//     productId: 1,
-//     quantity: 1,
-//   },
-//   {
-//     productId: 2,
-//     quantity: 5,
-//   },
-// ];
-// newSale(teste).then((testeo) => console.log(testeo));
 
 module.exports = {
   newSale,

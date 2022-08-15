@@ -5,9 +5,9 @@ function validationNewProduct(req, res, next) {
   const result = validator(schemaNewProduct, newProduct);
   if (result.message) {
     if (result.message.length === 18) {
-      return res.status(400).json(result); // menor
+      return res.status(400).json(result);
     }
-    return res.status(422).json(result); // maior
+    return res.status(422).json(result);
   }
   next();
 }
