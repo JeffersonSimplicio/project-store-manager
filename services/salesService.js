@@ -1,6 +1,11 @@
 const salesModel = require('../models/salesModel');
 const productsModel = require('../models/productsModel');
 
+async function getAll() {
+  const result = await salesModel.getAll();
+  return result;
+}
+
 async function newSale(shoppingList) {
   const products = await Promise
     .all(shoppingList.map((sale) => productsModel.getById(sale.productId)));
@@ -22,5 +27,6 @@ async function newSale(shoppingList) {
 }
 
 module.exports = {
+  getAll,
   newSale,
 };
