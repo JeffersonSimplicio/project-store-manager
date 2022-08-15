@@ -26,8 +26,6 @@ async function update(req, res) {
 
   const product = await productsService.update(id, name);
 
-  console.log('Valor retornado pela função: ', product);
-
   if (product.message) {
     return res.status(404).json(product);
   }

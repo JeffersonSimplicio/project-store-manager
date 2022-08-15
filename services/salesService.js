@@ -6,8 +6,6 @@ async function getAll() {
   return result;
 }
 
-// getAll().then((teste) => console.log(teste));
-
 async function getById(id) {
   const sale = await salesModel.getById(id);
   if (sale.length === 0) {
