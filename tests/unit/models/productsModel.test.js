@@ -31,6 +31,27 @@ describe("Testando productsModel; ", () => {
 
       expect(result).to.be.an("array");
     });
+    it("a função retorna um array com todos os produtos", async () => {
+      const resultExecute = [
+        {
+          id: 1,
+          name: "Martelo de Thor",
+        },
+        {
+          id: 2,
+          name: "Traje de encolhimento",
+        },
+        {
+          id: 3,
+          name: "Escudo do Capitão América",
+        },
+      ];
+      Sinon.stub(connection, "execute").resolves([resultExecute]);
+
+      const result = await productsModel.getAll();
+
+      expect(result).to.be.deep.equal(resultExecute);
+    });
   });
 
   describe("Testando getById de produtos: ", () => {
