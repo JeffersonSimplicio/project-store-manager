@@ -19,7 +19,7 @@ async function getById(id) {
 async function newSale(shoppingList) {
   const products = await Promise
     .all(shoppingList.map((sale) => productsModel.getById(sale.productId)));
-
+  
   if (products.some((product) => product.length === 0)) {
     return { message: 'Product not found' };
   }

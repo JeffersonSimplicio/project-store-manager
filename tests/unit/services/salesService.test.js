@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const { describe } = require("mocha");
+const { describe, it } = require("mocha");
 const Sinon = require("sinon");
 
 const salesModel = require("../../../models/salesModel");
@@ -23,48 +23,37 @@ describe("Testando salesService; ", () => {
       
       expect(result).to.be.deep.equal({ message: "Product not found" });
     });
-    it("a função linkBuyProducts é chamada quantas vezes forem necessárias",
+    it("a função retorna um objeto com a lista de vendas feitas e seu id",
       async () => {
-        const resultAddSale = 4;
+        const resultAddSale = 3;
         Sinon.stub(salesModel, "addSale").resolves(resultAddSale);
 
         const resultLinkBuyProducts = [
           { productId: 1, quantity: 1 },
           { productId: 2, quantity: 5 },
         ];
-        Sinon.stub(salesModel, "linkBuyProducts").resolves(resultLinkBuyProducts);
+        Sinon.stub(Promise, "all").resolves([
+          resultLinkBuyProducts[0],
+          resultLinkBuyProducts[1],
+        ]);
 
-        await salesServices.newSale(resultLinkBuyProducts);
+        const expectedResultNewSale = {
+          id: 3,
+          itemsSold: [
+            {
+              productId: 1,
+              quantity: 1,
+            },
+            {
+              productId: 2,
+              quantity: 5,
+            },
+          ],
+        };
 
-        expect(salesModel.linkBuyProducts.calledTwice).to.be.true;
+        const result = await salesServices.newSale(resultLinkBuyProducts);
+
+        expect(result).to.be.deep.equal(expectedResultNewSale);
       });
-    it("retorna um objeto no formato desejado", async () => {
-      const resultAddSale = 3;
-      Sinon.stub(salesModel, "addSale").resolves(resultAddSale);
-
-      const resultLinkBuyProducts = [
-        { productId: 1, quantity: 1 },
-        { productId: 2, quantity: 5 },
-      ];
-      Sinon.stub(salesModel, "linkBuyProducts").resolves(resultLinkBuyProducts);
-
-      const expectedResultNewSale = {
-        id: 3,
-        itemsSold: [
-          {
-            productId: 1,
-            quantity: 1,
-          },
-          {
-            productId: 2,
-            quantity: 5,
-          },
-        ],
-      }; ;
-
-      const result = await salesServices.newSale(resultLinkBuyProducts);
-
-      expect(result).to.be.deep.equal(expectedResultNewSale);
-    });
   });
 });
