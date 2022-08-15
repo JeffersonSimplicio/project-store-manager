@@ -1,5 +1,46 @@
 const connection = require('./connection');
 
+async function getAll() {
+  const [products] = await connection.execute(
+    `SELECT
+        s.id AS saleId,
+        s.date AS 'date',
+        sp.product_id AS productId,
+        sp.quantity AS quantity
+      FROM
+        StoreManager.sales_products AS sp
+      INNER JOIN
+        StoreManager.sales AS s
+      ON
+        sp.sale_id = s.id
+      ORDER BY
+        saleId ASC,
+        productId ASC ;`,
+  );
+  return products;
+}
+
+async function getById(id) {
+  const [products] = await connection.execute(
+    `SELECT
+        s.date AS 'date',
+        sp.product_id AS productId,
+        sp.quantity AS quantity
+      FROM
+        StoreManager.sales_products AS sp
+      INNER JOIN
+        StoreManager.sales AS s
+      ON
+        sp.sale_id = s.id
+      WHERE
+        sp.sale_id = ?
+      ORDER BY
+        productId ASC ;`,
+    [id],
+  );
+  return products;
+}
+
 async function addSale() {
   const [{ insertId }] = await connection.execute(
     'INSERT INTO StoreManager.sales () VALUES ();',
@@ -16,30 +57,9 @@ async function linkBuyProducts(saleId, { productId, quantity }) {
   );
 }
 
-async function getAll() {
-    const [products] = await connection.execute(
-      `SELECT
-        s.id AS saleId,
-        s.date AS 'date',
-        sp.product_id AS productId,
-        sp.quantity AS quantity
-      FROM
-        StoreManager.sales_products AS sp
-      INNER JOIN
-        StoreManager.sales AS s
-      ON
-        sp.sale_id = s.id
-      ORDER BY
-        saleId ASC,
-        productId ASC ;`,
-    );
-    return products;
-}
-
-// getAll().then((teste) => console.log(teste));
-
 module.exports = {
   getAll,
+  getById,
   addSale,
   linkBuyProducts,
 };
