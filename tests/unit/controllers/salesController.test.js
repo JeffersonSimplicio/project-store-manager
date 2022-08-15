@@ -60,6 +60,73 @@ describe("Testando salesController; ", () => {
       expect(res.json.calledWith(resultGetAll)).to.be.deep.equal(true);
     });
   });
+  describe("Testando função getById", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it('retorna apenas um a resposta:', async () => {
+      const req = {};
+      const res = {};
+
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+      req.params = { id: 9 };
+
+      const resultGetById = { message: "Sale not found" };
+
+      Sinon.stub(salesService, "getById").resolves(resultGetById);
+
+      await salesController.getById(req, res);
+
+      expect(res.status.calledOnce).to.be.true;
+    });
+    it("retorna status 404 e uma mensagem de erro quando id não é encontrado",
+      async () => {
+        const req = {};
+        const res = {};
+
+        res.status = Sinon.stub().returns(res);
+        res.json = Sinon.stub().returns();
+        req.params = { id: 9 };
+
+        const resultGetById = { message: "Sale not found" };
+        Sinon.stub(salesService, "getById").resolves(resultGetById);
+
+        await salesController.getById(req, res);
+
+        expect(res.status.calledWith(404)).to.be.equal(true);
+        expect(res.json.calledWith(resultGetById)).to.be.deep.equal(true);
+      });
+    it("retorna o status 200 e um array com os dados do respectivo id",
+      async () => {
+        const req = {};
+        const res = {};
+
+        res.status = Sinon.stub().returns(res);
+        res.json = Sinon.stub().returns();
+        req.params = { id: 1 };
+
+        const resultGetById = [
+          {
+            date: "2022-08-15T18:06:20.000Z",
+            productId: 1,
+            quantity: 5,
+          },
+          {
+            date: "2022-08-15T18:06:20.000Z",
+            productId: 2,
+            quantity: 10,
+          },
+        ];
+
+        Sinon.stub(salesService, "getById").resolves(resultGetById);
+
+        await salesController.getById(req, res);
+
+        expect(res.status.calledWith(200)).to.be.equal(true);
+        expect(res.json.calledWith(resultGetById)).to.be.deep.equal(true);
+      });
+  });
   describe("Testando função newSale: ", () => {
     afterEach(() => {
       Sinon.restore();
