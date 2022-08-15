@@ -108,4 +108,40 @@ describe("Testando productsService; ", () => {
       expect(result).to.be.deep.equal(resultUpdate);
     });
   });
+  describe("Testando remover:", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("a função productsModel.remove deve ser chamada apenas se o id existir",
+      async () => {
+        const resultGetById = [];
+        Sinon.stub(productsModel, "getById").resolves(resultGetById);
+
+        Sinon.stub(productsModel, "remove").resolves();
+
+        await productsService.remove(15);
+
+        expect(productsModel.remove.notCalled).to.be.true;
+    });
+    it("cado o id passado não exista, retornar uma mensagem de erro", async () => {
+      const resultGetById = [];
+      Sinon.stub(productsModel, "getById").resolves(resultGetById);
+
+      const result = await productsService.remove(15);
+
+      expect(result).to.be.an("object");
+      expect(result).to.be.deep.equal({ message: "Product not found" });
+    });
+    it("não deve retornar nada caso o id exista", async () => {
+        const resultGetById = [{ id: 1, name: "Martelo de Thor" }];
+      Sinon.stub(productsModel, "getById").resolves(resultGetById);
+      
+      Sinon.stub(productsModel, "remove").resolves();
+      
+      const result = await productsService.remove(1);
+
+      expect(productsModel.remove.calledOnce).to.be.true;
+      expect(result).to.be.equal(undefined);
+    })
+  });
 });
