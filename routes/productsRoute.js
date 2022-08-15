@@ -19,5 +19,6 @@ router.put(
   rescue(validation.validationProduct),
   rescue(productsController.update),
 );
+router.delete('/:id', productsController.remove);
 
 module.exports = router; 
