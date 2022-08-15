@@ -36,7 +36,7 @@ async function update(req, res) {
 async function remove(req, res) {
   const { id } = req.params;
   const product = await productsService.remove(id);
-  if (product.message) {
+  if (product) {
     return res.status(404).json(product);
   }
   res.status(204).end();
