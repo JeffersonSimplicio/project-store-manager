@@ -68,7 +68,7 @@ describe("Testando productsService; ", () => {
       expect(result).to.be.deep.equal({ id: 1, name: "Martelo de Thor" });
     });
   });
-  describe("Testando addProduct de produtos: ", () => {
+  describe("Testando addProduct: ", () => {
     afterEach(() => {
       Sinon.restore();
     });

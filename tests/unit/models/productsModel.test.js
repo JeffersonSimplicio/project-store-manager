@@ -94,7 +94,7 @@ describe("Testando productsModel; ", () => {
     });
   });
 
-  describe("Testando addProduct de produtos: ", () => {
+  describe("Testando addProduct: ", () => {
     afterEach(() => {
       Sinon.restore();
     });
@@ -105,6 +105,27 @@ describe("Testando productsModel; ", () => {
       const result = await productsModel.addProduct("productX");
 
       expect(result).to.be.deep.equal({ id: 4, name: "productX" });
+    });
+  });
+  describe("Testando update de produtos: ", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("a função 'execute' é chamada duas vezes",async () => {
+      Sinon.stub(connection, "execute")
+        .onCall(0).resolves()
+        .onCall(1).resolves([{ id: 1, name: "Martelo de Thor" }]);
+      
+      await productsModel.update(1, "Martelo de Thor");
+      expect(connection.execute.calledTwice).to.be.true;
+    });
+    it("retorna um objeto com id e o nome atualizado", async () => {
+            Sinon.stub(connection, "execute")
+        .onCall(0).resolves()
+        .onCall(1).resolves([[ { id: 1, name: 'Martelo de Batman' } ]]);
+      
+      const result = await productsModel.update(1, "Martelo de Batman");
+      expect(result).to.be.deep.equal({ id: 1, name: "Martelo de Batman" });
     });
   });
 });
