@@ -6,6 +6,60 @@ const salesService = require("../../../services/salesService");
 const salesController = require("../../../controllers/salesController");
 
 describe("Testando salesController; ", () => {
+  describe("Testando a função getAll", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("retorna o status 200", async () => {
+      const req = {};
+      const res = {};
+
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+      
+      const resultGetAll = [];
+
+      Sinon.stub(salesService, "getAll").resolves(resultGetAll);
+
+      await salesController.getAll(req, res);
+
+      expect(res.status.calledWith(200)).to.be.equal(true);
+    })
+    it("retorna um array com a lista de vendas", async () => {
+      const req = {};
+      const res = {};
+
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+
+      const resultGetAll = [
+        {
+          saleId: 1,
+          date: "2022-08-15T18:06:20.000Z",
+          productId: 1,
+          quantity: 5,
+        },
+        {
+          saleId: 1,
+          date: "2022-08-15T18:06:20.000Z",
+          productId: 2,
+          quantity: 10,
+        },
+        {
+          saleId: 2,
+          date: "2022-08-15T18:06:20.000Z",
+          productId: 3,
+          quantity: 15,
+        },
+      ];
+
+      Sinon.stub(salesService, "getAll").resolves(resultGetAll);
+
+      await salesController.getAll(req, res);
+
+      expect(res.json.calledWith(resultGetAll)).to.be.deep.equal(true);
+    });
+  });
   describe("Testando função newSale: ", () => {
     afterEach(() => {
       Sinon.restore();
@@ -74,6 +128,7 @@ describe("Testando salesController; ", () => {
 
       await salesController.newSale(req, res);
 
+      expect(res.status.calledWith(201)).to.be.equal(true);
       expect(res.json.calledWith(resultNewSale)).to.be.deep.equal(true);
     });
     it("a requisição é respondida apenas uma vez caso tudo ok",
