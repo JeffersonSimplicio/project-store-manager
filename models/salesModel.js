@@ -79,11 +79,10 @@ async function update(id, { productId, quantity }) {
     `UPDATE
       StoreManager.sales_products
     SET
-      product_id = ?,
       quantity = ?
     WHERE
-      sale_id = ?;`,
-    [productId, quantity, id],
+      sale_id = ? AND product_id = ?;`,
+    [quantity, id, productId],
   );
 }
 
