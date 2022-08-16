@@ -35,10 +35,16 @@ async function remove(id) {
   await productsModel.remove(id);
 }
 
+async function getByName(nameSearched) {
+  const products = await productsModel.getByName(nameSearched);
+  return products;
+}
+
 module.exports = {
   getAll,
   getById,
   addProduct,
   update,
   remove,
+  getByName,
 }; 
