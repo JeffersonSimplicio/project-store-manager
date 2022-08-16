@@ -143,6 +143,20 @@ describe("Testando salesModel", () => {
       expect(connection.execute.calledTwice).to.be.true;
     });
   });
+  describe("Testando update", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("ao executar remove, a função executada duas vezes", async () => {
+      Sinon.stub(connection, "execute")
+        .onCall(0).resolves()
+        .onCall(1).resolves();
+
+      await salesModel.update(1, { productId: 1, quantity:1 });
+
+      expect(connection.execute.calledTwice).to.be.true;
+    });
+  });
 });
 
 // [
