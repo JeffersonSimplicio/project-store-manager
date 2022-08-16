@@ -76,14 +76,13 @@ async function remove(id) {
 
 async function update(id, { productId, quantity }) {
   await connection.execute(
-    `UPDATE
+    `DELETE FROM
       StoreManager.sales_products
-    SET
-      quantity = ?
     WHERE
-      sale_id = ? AND product_id = ?;`,
-    [quantity, id, productId],
+      sale_id = ?`,
+    [id],
   );
+  await linkBuyProducts(id, { productId, quantity });
 }
 
 module.exports = {
