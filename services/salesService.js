@@ -43,15 +43,25 @@ async function remove(id) {
 }
 
 async function update(id, shoppingList) {
+  const products = await Promise.all(
+    shoppingList.map((sale) => productsModel.getById(sale.productId)),
+  );
+
+  if (products.some((product) => product.length === 0)) {
+    return { message: 'Product not found' };
+  }
+  
   const saleCheck = await getById(id);
   if (saleCheck.message) {
     return saleCheck;
   }
 
   await Promise.all(shoppingList.map((sale) => salesModel.update(id, sale)));
-  
-  const editedSale = await getById(id);
-  return editedSale;
+  const result = {
+    saleId: id,
+    itemsUpdated: shoppingList,
+  };
+  return result;
 }
 
 module.exports = {
