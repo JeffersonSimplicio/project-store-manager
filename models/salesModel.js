@@ -74,10 +74,24 @@ async function remove(id) {
   );
 }
 
+async function update(id, { productId, quantity }) {
+  await connection.execute(
+    `UPDATE
+      StoreManager.sales_products
+    SET
+      product_id = ?,
+      quantity = ?
+    WHERE
+      sale_id = ?;`,
+    [productId, quantity, id],
+  );
+}
+
 module.exports = {
   getAll,
   getById,
   addSale,
   linkBuyProducts,
   remove,
+  update,
 };
