@@ -23,8 +23,18 @@ async function newSale(req, res) {
   res.status(201).json(sales);
 }
 
+async function remove(req, res) {
+  const { id } = req.params;
+  const product = await salesService.remove(id);
+  if (product) {
+    return res.status(404).json(product);
+  }
+  res.status(204).end();
+}
+
 module.exports = {
   getAll,
   getById,
   newSale,
+  remove,
 };
