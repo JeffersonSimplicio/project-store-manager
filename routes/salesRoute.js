@@ -14,6 +14,11 @@ router.post(
   rescue(validation.validationSale),
   rescue(salesController.newSale),
 );
-router.delete('/:id', salesController.remove);
+router.put(
+  '/:id',
+  rescue(validation.validationSale),
+  rescue(salesController.update),
+);
+router.delete('/:id', rescue(salesController.remove));
 
 module.exports = router; 
