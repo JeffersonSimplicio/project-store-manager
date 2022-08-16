@@ -35,11 +35,23 @@ async function newSale(shoppingList) {
 }
 
 async function remove(id) {
-  const productCheck = await getById(id);
-  if (productCheck.message) {
-    return productCheck;
+  const saleCheck = await getById(id);
+  if (saleCheck.message) {
+    return saleCheck;
   }
   await salesModel.remove(id);
+}
+
+async function update(id, shoppingList) {
+  const saleCheck = await getById(id);
+  if (saleCheck.message) {
+    return saleCheck;
+  }
+
+  await Promise.all(shoppingList.map((sale) => salesModel.update(id, sale)));
+  
+  const editedSale = await getById(id);
+  return editedSale;
 }
 
 module.exports = {
@@ -47,4 +59,5 @@ module.exports = {
   getById,
   newSale,
   remove,
+  update,
 };
