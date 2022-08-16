@@ -1,4 +1,5 @@
 const { expect } = require("chai");
+const { SearchSource } = require("jest");
 const { describe, it } = require("mocha");
 const Sinon = require("sinon");
 
@@ -123,5 +124,41 @@ describe("Testando salesService; ", () => {
 
         expect(result).to.be.deep.equal(expectedResultNewSale);
       });
+  });
+  describe("Testando remove:", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("a função de salesModel.remove deve ser chamada apenas se o id existir",
+      async () => {
+        const resultGetById = [];
+        Sinon.stub(salesModel, "getById").resolves(resultGetById);
+
+        Sinon.stub(salesModel, "remove").resolves();
+
+        await salesServices.remove(15);
+
+        expect(salesModel.remove.notCalled).to.be.true;
+      });
+    it("cado o id passado não exista, retornar uma mensagem de erro", async () => {
+      const resultGetById = [];
+      Sinon.stub(salesModel, "getById").resolves(resultGetById);
+
+      const result = await salesServices.remove(15);
+
+      expect(result).to.be.an("object");
+      expect(result).to.be.deep.equal({ message: "Sale not found" });
+    });
+    it("não deve retornar nada caso o id exista", async () => {
+      const resultGetById = [{ id: 1, name: "Martelo de Thor" }];
+      Sinon.stub(salesModel, "getById").resolves(resultGetById);
+
+      Sinon.stub(salesModel, "remove").resolves();
+
+      const result = await salesServices.remove(1);
+      
+      expect(salesModel.remove.calledOnce).to.be.true;
+      expect(result).to.be.equal(undefined);
+    });
   });
 });
