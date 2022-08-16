@@ -34,8 +34,17 @@ async function newSale(shoppingList) {
   return result;
 }
 
+async function remove(id) {
+  const productCheck = await getById(id);
+  if (productCheck.message) {
+    return productCheck;
+  }
+  await salesModel.remove(id);
+}
+
 module.exports = {
   getAll,
   getById,
   newSale,
+  remove,
 };
