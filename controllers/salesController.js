@@ -32,9 +32,23 @@ async function remove(req, res) {
   res.status(204).end();
 }
 
+async function update(req, res) {
+  const { id } = req.params;
+  const shoppingList = req.body;
+
+  const product = await salesService.update(id, shoppingList);
+
+  if (product.message) {
+    return res.status(404).json(product);
+  }
+
+  res.status(200).json(product);
+}
+
 module.exports = {
   getAll,
   getById,
   newSale,
   remove,
+  update,
 };
