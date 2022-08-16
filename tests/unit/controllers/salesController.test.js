@@ -281,4 +281,73 @@ describe("Testando salesController; ", () => {
       expect(res.end.calledOnce).to.be.true;
     });
   });
+  describe("Testando update", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("caso o produto não exista, retorna um status 404 e uma mensagem de erro",
+      async () => {
+        const req = {};
+        const res = {};
+
+        res.status = Sinon.stub().returns(res);
+        res.json = Sinon.stub().returns();
+        req.params = { id: 10 };
+        req.body = [
+          { productId: 1, quantity: 10 },
+          { productId: 2, quantity: 50 },
+        ];
+        Sinon.stub(salesService, "update")
+          .resolves({ message: "Product not found" });
+        
+        await salesController.update(req, res);
+        
+        expect(res.status.calledWith(404)).to.be.true;
+        expect(res.json.calledWith({ message: "Product not found" }))
+          .to.be.deep.true;
+      });
+    it("caso a venda não exista é retornado o status 404 e uma mensagem de erro",
+      async () => {
+        const req = {};
+        const res = {};
+
+        res.status = Sinon.stub().returns(res);
+        res.json = Sinon.stub().returns();
+        req.params = { id: 1 };
+        req.body = [
+          { productId: 1, quantity: 10 },
+          { productId: 10, quantity: 50 },
+        ];
+        Sinon.stub(salesService, "update").resolves({
+          message: "Sale not found",
+        });
+
+        await salesController.update(req, res);
+
+        expect(res.status.calledWith(404)).to.be.true;
+        expect(res.json.calledWith({ message: "Sale not found" })).to.be.deep
+          .true;
+      });
+    it("caso os dados estejam coerentes, retorna o status 200 e um objeto com os novos dados", async () => {
+      const req = {};
+      const res = {};
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+      req.params = { id: 1 };
+      req.body = [
+        { productId: 1, quantity: 10 },
+        { productId: 2, quantity: 50 },
+      ];
+      const expectedOutcome = {
+        saleId: req.params,
+        itemsUpdated: req.body,
+      };
+      Sinon.stub(salesService, "update").resolves(expectedOutcome);
+
+      await salesController.update(req, res);
+
+      expect(res.status.calledWith(200)).to.be.true;
+      expect(res.json.calledWith(expectedOutcome)).to.be.deep.true;
+    });
+  });
 });
