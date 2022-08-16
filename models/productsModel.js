@@ -47,10 +47,25 @@ async function remove(id) {
   );
 }
 
+async function getByName(nameSearched = '') {
+  const searchLike = `%${nameSearched}%`;
+  const [result] = await connection.execute(
+    `SELECT
+      id, name
+    FROM
+      StoreManager.products
+    WHERE
+      name LIKE ?;`,
+    [searchLike],
+  );
+  return result;
+}
+
 module.exports = {
   getAll,
   getById,
   addProduct,
   update,
   remove,
+  getByName,
 };
