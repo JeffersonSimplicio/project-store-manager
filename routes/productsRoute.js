@@ -8,6 +8,7 @@ const productsController = require('../controllers/productsController');
 const validation = require('../middlewares/validationProduct');
  
 router.get('/', rescue(productsController.getAll));
+router.get('/search', rescue(productsController.getByName));
 router.get('/:id', rescue(productsController.getById));
 router.post(
   '/',
