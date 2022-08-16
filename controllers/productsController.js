@@ -42,10 +42,18 @@ async function remove(req, res) {
   res.status(204).end();
 }
 
+async function getByName(req, res) {
+  const { q: search } = req.query;
+  console.log(search);
+  const products = await productsService.getByName(search);
+  return res.status(200).json(products);
+}
+
 module.exports = {
   getAll,
   getById,
   addProduct,
   update,
   remove,
+  getByName,
 };
