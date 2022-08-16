@@ -129,6 +129,20 @@ describe("Testando salesModel", () => {
       expect(connection.execute.calledOnce).to.be.true;
     });
   });
+  describe("Testando remove", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("Quando a função remove é chamada, a função execute é chamada duas vezes", async () => {
+      Sinon.stub(connection, "execute")
+        .onCall(0).resolves()
+        .onCall(1).resolves();
+      
+      await salesModel.remove(1);
+
+      expect(connection.execute.calledTwice).to.be.true;
+    });
+  });
 });
 
 // [
