@@ -4,7 +4,7 @@ const schemaProduct = joi.object().keys({
   name: joi.string().min(5).required(),
 });
 
-const schemaNewSale = joi.array().items(
+const schemaSale = joi.array().items(
   joi.object().keys({
     productId: joi.number().required().messages({
       'any.required': '"productId" is required',
@@ -29,5 +29,5 @@ function validator(schema, body) {
 module.exports = {
   validator,
   schemaProduct,
-  schemaNewSale,
+  schemaSale,
 };
