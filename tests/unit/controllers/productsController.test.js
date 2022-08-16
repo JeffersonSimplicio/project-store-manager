@@ -161,6 +161,7 @@ describe("Testando productsController; ", () => {
     it("é enviado apenas uma resposta", async () => {
       const req = {};
       const res = {};
+      
       res.status = Sinon.stub().returns(res);
       res.json = Sinon.stub().returns();
       res.end = Sinon.stub().returns();
