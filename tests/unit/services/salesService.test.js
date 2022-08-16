@@ -161,4 +161,78 @@ describe("Testando salesService; ", () => {
       expect(result).to.be.equal(undefined);
     });
   });
+  describe("Testando update", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("caso algum produto não exista, retorna uma mensagem de erro", async () => {
+      // [[{ id: 1, name: "Martelo de Thor" }], []];
+      // [
+      //   [{ id: 1, name: "Martelo de Thor" }],
+      //   [{ id: 2, name: "Traje de encolhimento" }],
+      // ];
+      const resultPromiseAll = [[{ id: 1, name: "Martelo de Thor" }], []];
+      Sinon.stub(Promise, "all").resolves(resultPromiseAll);
+
+      const shoppingList = [
+        { productId: 1, quantity: 10 },
+        { productId: 10, quantity: 50 },
+      ];
+      const result = await salesServices.update(1, shoppingList);
+
+      expect(result).to.be.deep.equal({ message: "Product not found" });
+    });
+    it("caso o id da venda não exista, retorna uma mensagem de erro", async () => {
+      const resultPromiseAll = [
+        [{ id: 1, name: "Martelo de Thor" }],
+        [{ id: 2, name: "Traje de encolhimento" }],
+      ];
+      Sinon.stub(Promise, "all").resolves(resultPromiseAll);
+
+      const resultGetById = [];
+      Sinon.stub(salesModel, "getById").resolves(resultGetById);
+
+      const shoppingList = [
+        { productId: 1, quantity: 10 },
+        { productId: 2, quantity: 50 },
+      ];
+      const result = await salesServices.update(10, shoppingList);
+
+      expect(result).to.be.deep.equal({ message: "Sale not found" });
+    });
+    it("caso de certo, retorna um array com os dados modificados", async () => {
+      const resultPromiseAll = [
+        [{ id: 1, name: "Martelo de Thor" }],
+        [{ id: 2, name: "Traje de encolhimento" }],
+      ];
+      Sinon.stub(Promise, "all").resolves(resultPromiseAll);
+
+      const resultGetById = [
+        {
+          date: "2022-08-16T20:51:37.000Z",
+          productId: 1,
+          quantity: 1,
+        },
+        {
+          date: "2022-08-16T20:51:37.000Z",
+          productId: 2,
+          quantity: 5,
+        },
+      ];
+      Sinon.stub(salesModel, "getById").resolves(resultGetById);
+
+      const shoppingList = [
+        { productId: 1, quantity: 10 },
+        { productId: 2, quantity: 50 },
+      ];
+
+      const expectedOutcome = {
+        saleId: 1,
+        itemsUpdated: shoppingList,
+      };
+      const result = await salesServices.update(1, shoppingList);
+      
+      expect(result).to.be.deep.equal(expectedOutcome);
+    });
+  });
 });
