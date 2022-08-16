@@ -57,9 +57,27 @@ async function linkBuyProducts(saleId, { productId, quantity }) {
   );
 }
 
+async function remove(id) {
+  await connection.execute(
+    `DELETE FROM
+      StoreManager.sales_products
+    WHERE
+      sale_id = ?;`,
+    [id],
+  );
+  await connection.execute(
+    `DELETE FROM
+      StoreManager.sales
+    WHERE
+      id = ?;`,
+    [id],
+  );
+}
+
 module.exports = {
   getAll,
   getById,
   addSale,
   linkBuyProducts,
+  remove,
 };
