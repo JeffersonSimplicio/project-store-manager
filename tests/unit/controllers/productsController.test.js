@@ -154,4 +154,58 @@ describe("Testando productsController; ", () => {
         expect(res.json.calledWith(returnUpdate)).to.be.deep.equal(true);
       });
   });
+  describe("Testando remove", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("é enviado apenas uma resposta", async () => {
+      const req = {};
+      const res = {};
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+      res.end = Sinon.stub().returns();
+      req.params = { id: 10 };
+      Sinon.stub(productsService, "remove").resolves({
+        message: "Product not found",
+      });
+
+      await productsController.remove(req, res);
+
+      expect(res.status.calledOnce).to.be.true;
+    });
+    it("envia o status 404 e mensagem de erro, quando id não existe", async () => {
+      const req = {};
+      const res = {};
+
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+      res.end = Sinon.stub().returns();
+      req.params = { id: 10 };
+      Sinon.stub(productsService, "remove").resolves({
+        message: "Product not found",
+      });
+
+      await productsController.remove(req, res);
+
+      expect(res.status.calledWith(404)).to.be.true;
+      expect(res.json.calledWith({ message: "Product not found" }))
+        .to.be.deep.true;
+      expect(res.end.notCalled).to.be.true;
+    });
+    it("envia apenas o status 200, caso tudo certo", async () => {
+      const req = {};
+      const res = {};
+      res.status = Sinon.stub().returns(res);
+      res.json = Sinon.stub().returns();
+      res.end = Sinon.stub().returns();
+      req.params = { id: 10 };
+      Sinon.stub(productsService, "remove").resolves();
+
+      await productsController.remove(req, res);
+
+      expect(res.status.calledWith(204)).to.be.true;
+      expect(res.json.notCalled).to.be.true;
+      expect(res.end.calledOnce).to.be.true;
+    });
+  });
 });
