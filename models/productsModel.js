@@ -61,6 +61,8 @@ async function getByName(nameSearched = '') {
   return result;
 }
 
+// getByName('louco').then((test) => console.log(test)); --retorna um array
+
 module.exports = {
   getAll,
   getById,
