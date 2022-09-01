@@ -5,26 +5,19 @@ const Sinon = require("sinon");
 const productsModel = require("../../../models/productsModel");
 const connection = require("../../../models/connection");
 
+const FULL_LIST = [
+  { id: 1, name: "Martelo de Thor" },
+  { id: 2, name: "Traje de encolhimento" },
+  { id: 3, name: "Escudo do Capitão América" },
+];
+
 describe("Testando productsModel; ", () => {
   describe("Testando getAll de produtos: ", () => {
     afterEach(() => {
       Sinon.restore();
     });
     it("é retornado um array", async () => {
-      const resultExecute = [
-        {
-          id: 1,
-          name: "Martelo de Thor",
-        },
-        {
-          id: 2,
-          name: "Traje de encolhimento",
-        },
-        {
-          id: 3,
-          name: "Escudo do Capitão América",
-        },
-      ];
+      const resultExecute = FULL_LIST;
       Sinon.stub(connection, "execute").resolves([resultExecute]);
 
       const result = await productsModel.getAll();
@@ -32,20 +25,7 @@ describe("Testando productsModel; ", () => {
       expect(result).to.be.an("array");
     });
     it("a função retorna um array com todos os produtos", async () => {
-      const resultExecute = [
-        {
-          id: 1,
-          name: "Martelo de Thor",
-        },
-        {
-          id: 2,
-          name: "Traje de encolhimento",
-        },
-        {
-          id: 3,
-          name: "Escudo do Capitão América",
-        },
-      ];
+      const resultExecute = FULL_LIST;
       Sinon.stub(connection, "execute").resolves([resultExecute]);
 
       const result = await productsModel.getAll();
@@ -68,10 +48,7 @@ describe("Testando productsModel; ", () => {
     });
     it("retorna apenas um produto", async () => {
       const resultExecute = [
-        {
-          id: 1,
-          name: "Martelo de Thor",
-        },
+        { id: 1, name: "Martelo de Thor" },
       ];
       Sinon.stub(connection, "execute").resolves([resultExecute]);
 
@@ -81,10 +58,7 @@ describe("Testando productsModel; ", () => {
     });
     it("retorna o produto com id certo", async () => {
       const resultExecute = [
-        {
-          id: 1,
-          name: "Martelo de Thor",
-        },
+        { id: 1, name: "Martelo de Thor" },
       ];
       Sinon.stub(connection, "execute").resolves([resultExecute]);
 
@@ -136,6 +110,44 @@ describe("Testando productsModel; ", () => {
       Sinon.stub(connection, "execute").resolves();
       await productsModel.remove();
       expect(connection.execute.calledOnce).to.be.true;
+    });
+  });
+  describe("Testando busca por nome do produto", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("a função 'execute' é chamada apenas um vez", async () => {
+      Sinon.stub(connection, "execute").resolves([]);
+      await productsModel.getByName();
+      expect(connection.execute.calledOnce).to.be.true;
+    });
+    it("retorna um array com os objetos que possuam a palavra pesquisada",
+      async () => {
+      Sinon.stub(connection, "execute").resolves([
+        [{ id: 1, name: "Martelo de Batman" }],
+      ]);
+      const result = await productsModel.getByName('martelo');
+      expect(result).to.be.an("array");
+      expect(result).to.be.deep.equal([{ id: 1, name: "Martelo de Batman" }]);
+    });
+    it("caso nada seja passado, um array com todos os produtos são retornados",
+    async () => {
+      const resultExecute = FULL_LIST;
+      Sinon.stub(connection, "execute").resolves([resultExecute]);
+  
+      const result = await productsModel.getByName();
+
+      expect(result).to.be.an("array");
+      expect(result).to.be.deep.equal(resultExecute);
+    });
+    it("caso o produto não exista, é retornado um array vazio", async () => {
+      const resultExecute = [];
+      Sinon.stub(connection, "execute").resolves([resultExecute]);
+
+      const result = await productsModel.getByName();
+
+      expect(result).to.be.an("array");
+      expect(result).to.be.deep.equal(resultExecute);
     });
   });
 });

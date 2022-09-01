@@ -5,6 +5,12 @@ const Sinon = require("sinon");
 const productsModel = require('../../../models/productsModel');
 const productsService = require('../../../services/productsService');
 
+const FULL_LIST = [
+  { id: 1, name: "Martelo de Thor" },
+  { id: 2, name: "Traje de encolhimento" },
+  { id: 3, name: "Escudo do Capitão América" },
+];
+
 describe("Testando productsService; ", () => {
   describe("Testando getAll de produtos: ", () => {
     afterEach(() => {
@@ -19,20 +25,7 @@ describe("Testando productsService; ", () => {
       expect(result).to.be.an("array");
     });
     it('retorna todos os produtos do banco de dados',async () => {
-      const resultGetAll = [
-        {
-          id: 1,
-          name: "Martelo de Thor",
-        },
-        {
-          id: 2,
-          name: "Traje de encolhimento",
-        },
-        {
-          id: 3,
-          name: "Escudo do Capitão América",
-        },
-      ];
+      const resultGetAll = FULL_LIST;
       Sinon.stub(productsModel, "getAll").resolves(resultGetAll);
 
       const result = await productsService.getAll();
@@ -55,10 +48,7 @@ describe("Testando productsService; ", () => {
     });
     it('retorna o objeto de produto', async () => {
       const resultGetById = [
-        {
-          id: 1,
-          name: "Martelo de Thor",
-        },
+        { id: 1, name: "Martelo de Thor" },
       ];
       Sinon.stub(productsModel, "getById").resolves(resultGetById);
 
@@ -143,5 +133,52 @@ describe("Testando productsService; ", () => {
       expect(productsModel.remove.calledOnce).to.be.true;
       expect(result).to.be.equal(undefined);
     })
+  });
+  describe("Testando busca por nome do produto", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("a função 'productsModel.getByName' é chamada apenas um vez", async () => {
+      Sinon.stub(productsModel, "getByName").resolves([]);
+
+      await productsService.getByName();
+
+      expect(productsModel.getByName.calledOnce).to.be.true;
+    });
+
+    it("a função 'productsModel.getByName' é chamada com o valor passado para 'productsService.getByName'", async () => {
+      Sinon.stub(productsModel, "getByName").resolves([]);
+      await productsService.getByName('martelo');
+      expect(productsModel.getByName.calledWith("martelo")).to.be.true;
+    });
+
+    it("retorna um array com os objetos que possuam a palavra pesquisada", async () => {
+      Sinon.stub(productsModel, "getByName").resolves([
+        { id: 1, name: "Martelo de Batman" },
+      ]);
+      const result = await productsService.getByName("martelo");
+      expect(result).to.be.an("array");
+      expect(result).to.be.deep.equal([{ id: 1, name: "Martelo de Batman" }]);
+    });
+
+    it("caso nada seja passado, um array com todos os produtos são retornados", async () => {
+      const resultGetByName = FULL_LIST;
+      Sinon.stub(productsModel, "getByName").resolves(resultGetByName);
+
+      const result = await productsService.getByName();
+
+      expect(result).to.be.an("array");
+      expect(result).to.be.deep.equal(resultGetByName);
+    });
+
+    it("caso o produto não exista, é retornado um array vazio", async () => {
+      const resultGetByName = [];
+      Sinon.stub(productsModel, "getByName").resolves(resultGetByName);
+
+      const result = await productsService.getByName('productX');
+
+      expect(result).to.be.an("array");
+      expect(result).to.be.deep.equal([]);
+    });
   });
 });

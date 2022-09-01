@@ -209,4 +209,78 @@ describe("Testando productsController; ", () => {
       expect(res.end.calledOnce).to.be.true;
     });
   });
+  describe("Testando busca por nome do produto", () => {
+    afterEach(() => {
+      Sinon.restore();
+    });
+    it("a função 'productsModel.getByName' é chamada apenas um vez",
+      async () => {
+        const req = {};
+        const res = {};
+        res.status = Sinon.stub().returns(res);
+        res.json = Sinon.stub().returns();
+        req.query = { q: '' };
+        Sinon.stub(productsService, "getByName").resolves([]);
+
+        await productsController.getByName(req, res);
+
+        expect(productsService.getByName.calledOnce).to.be.true;
+    });
+    describe("A requisição retorna o status 200 e um array, independente da resposta", () => {
+      afterEach(() => {
+        Sinon.restore();
+      });
+      it("é retornado um array com todos os produtos, quando nada é passado",
+        async () => {
+          const resultGetByName = [
+            { id: 1, name: "Martelo de Thor" },
+            { id: 2, name: "Traje de encolhimento" },
+            { id: 3, name: "Escudo do Capitão América" },
+          ];
+
+          const req = {};
+          const res = {};
+          res.status = Sinon.stub().returns(res);
+          res.json = Sinon.stub().returns();
+          req.query = { q: "" };
+
+          Sinon.stub(productsService, "getByName").resolves(resultGetByName);
+
+          await productsController.getByName(req, res);
+
+          expect(res.status.calledWith(200)).to.be.true;
+          expect(res.json.calledWith(resultGetByName)).to.be.true;
+        });
+      it("caso o produto não exista, é retornado um array vazio", async () => {
+        const req = {};
+        const res = {};
+        res.status = Sinon.stub().returns(res);
+        res.json = Sinon.stub().returns();
+        req.query = { q: "productX" };
+
+        Sinon.stub(productsService, "getByName").resolves([]);
+
+        await productsController.getByName(req, res);
+
+        expect(res.status.calledWith(200)).to.be.true;
+        expect(res.json.calledWith([])).to.be.true;
+      });
+      it("retorna apenas os produtos com o nome compatível", async () => {
+        const req = {};
+        const res = {};
+        res.status = Sinon.stub().returns(res);
+        res.json = Sinon.stub().returns();
+        req.query = { q: "martelo" };
+
+        Sinon.stub(productsService, "getByName")
+          .resolves([{ id: 1, name: "Martelo de Thor" }]);
+
+        await productsController.getByName(req, res);
+
+        expect(res.status.calledWith(200)).to.be.true;
+        expect(res.json.calledWith([{ id: 1, name: "Martelo de Thor" }]))
+          .to.be.true;
+      });
+    });
+  });
 });
