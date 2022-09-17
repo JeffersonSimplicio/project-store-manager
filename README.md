@@ -32,23 +32,70 @@ Nesse projeto também foi feita a criação de testes unitários, com cobertura 
 
 ## Utilização
 
+<details>
+  <summary><strong>💻 Localmente</strong></summary>
+
 - Para rodar a aplicação, obrigatoriamente você deve ter o `node` instalado em seu computador.
+  
 - É necessário ter o MySQL sendo executado
-- Caso não possua o banco de dados criado ainda, user o comando `npm run migration`
-- ✨ **Dica:** Para povoar o banco de dados, execute o comando `npm run seed`
+  
+- ✨ **Dica:**  Caso não possua o banco de dados criado ainda, user o comando `npm run migration`²
+
+- ✨ **Dica:** Para povoar o banco de dados, execute o comando `npm run seed`²
 
 1. Clone o projeto e entre no diretório
-  ```
-    git clone git@github.com:JeffersonSimplicio/project-store-manager.git
-    cd project-store-manager
-  ```
+
+```
+cd project-store-manager
+git clone git@github.com:JeffersonSimplicio/project-store-manager.git
+```
+
 2. Instale as dependências
-  ```
-    npm i
-  ```
+```
+npm i
+```
 3. Renomeie o arquivo `.env.example` para `.env` e edite os dados para os da sua maquina
-  
+
 4. Inicie a aplicação
-  ```
-    npm start
-  ```
+```
+npm start
+```
+</details>
+
+<details>
+  <summary><strong>🐳 Docker</strong></summary>
+
+- Para rodar a aplicação com docker, sera necessário ter instalando em suas maquina `Docker` e `Docker Compose`
+
+- ✨ **Dica:** Caso não possua o banco de dados criado ainda, user o comando `npm run migration`²
+
+- ✨ **Dica:** Para povoar o banco de dados, execute o comando `npm run seed`²
+
+² - execute esses comandos no terminal do container
+
+1. Clone o projeto e entre no diretório
+
+```
+cd project-store-manager
+git clone git@github.com:JeffersonSimplicio/project-store-manager.git
+```
+2. Suba o ambiente do docker
+```
+docker-compose up -d
+```
+
+3. Acesse o terminal do contêiner
+```
+docker exec -it store_manager bash
+```
+
+4. Instale as dependências
+```
+npm i
+```
+
+5. Inicialize a aplicação
+```
+npm start
+```
+</details>
