@@ -19,19 +19,25 @@ O projeto foi desenvolvido em uma arquitetura em camadas **MSC** (Model-Service-
 
 O framework **Mocha** foi utilizado para estruturar os testes, as asserções utilizadas foram providas pela biblioteca **Chai**. Por tratar-se de testes unitários, apenas uma funcionalidade especifica era testada por vez, para que as demais funções não influenciassem nos teste, a biblioteca **Sinon** foi usada para criar dubles.
 
-<!-- Olá, Tryber!
+## Utilização
 
-# 🚧 README em construção 🚧
+- Para rodar a aplicação, obrigatoriamente você deve ter o `node` instalado em seu computador.
+- É necessário ter o MySQL sendo executado
+- Caso não possua o banco de dados criado ainda, user o comando `npm run migration`
+- ✨ **Dica:** Para povoar o banco de dados, execute o comando `npm run seed`
 
-Esse é apenas um arquivo inicial para o README do seu projeto.
-
-É essencial que você preencha esse documento por conta própria, ok?
-
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-
-⚠️ IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
-
--->
+1. Clone o projeto e entre no diretório
+  ```
+    git clone git@github.com:JeffersonSimplicio/project-store-manager.git
+    cd project-store-manager
+  ```
+2. Instale as dependências
+  ```
+    npm i
+  ```
+3. Renomeie o arquivo `.env.example` para `.env` e edite os dados para os da sua maquina
+  
+4. Inicie a aplicação
+  ```
+    npm start
+  ```
