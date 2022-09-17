@@ -69,7 +69,7 @@ npm start
 <details>
   <summary><strong>🐳 Docker</strong></summary>
 
-- Para rodar a aplicação com docker, sera necessário ter instalando em suas maquina `Docker` e `Docker Compose`
+- Para rodar a aplicação com docker, é necessário ter instalando em sua maquina `Docker` e `Docker Compose`
 
 - ✨ **Dica:** Caso não possua o banco de dados criado ainda, user o comando `npm run migration`²
 
