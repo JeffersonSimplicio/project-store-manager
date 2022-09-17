@@ -19,6 +19,17 @@ O projeto foi desenvolvido em uma arquitetura em camadas **MSC** (Model-Service-
 
 O framework **Mocha** foi utilizado para estruturar os testes, as asserções utilizadas foram providas pela biblioteca **Chai**. Por tratar-se de testes unitários, apenas uma funcionalidade específica era testada por vez, para que as demais funções não influenciassem nos teste, a biblioteca **Sinon** foi usada para criar dubles.
 
+## Desenvolvimento
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+![Insomnia](https://img.shields.io/badge/Insomnia-black?style=for-the-badge&logo=insomnia&logoColor=5849BE)
+
+Para assegurar um ambiente isolado e seguro para o desenvolvimento e dos testes, foi usado o **Docker**. Os códigos foram escritas na ferramenta da Microsoft, **Visual Studio Code**. Durante a criação o Nodemon foi utilizado para rodar a execução, essa ferramenta tornou o desenvolvimento mais dinâmico, o monitoramento do comportamento da API foi feito com o **Insomnia**.
+
+Nesse projeto também foi feita a criação de testes unitários, com cobertura de 100% das linhas¹. Os testes foram feitos para Models, Servirces e Controllers, senso implementado com o uso de Mocha, Chai e Sinon. Os testes possuem dubles, portanto, podem ser executados mesmo sem um banco de dados(`npm run test:mocha`).
+
+¹ - Relativo aos arquivos testados.
+
 ## Utilização
 
 - Para rodar a aplicação, obrigatoriamente você deve ter o `node` instalado em seu computador.
