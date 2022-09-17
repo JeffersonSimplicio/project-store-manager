@@ -43,20 +43,24 @@ Nesse projeto também foi feita a criação de testes unitários, com cobertura 
 
 - ✨ **Dica:** Para povoar o banco de dados, execute o comando `npm run seed`²
 
-1. Clone o projeto e entre no diretório
+1. Clone o projeto para sua maquina
 
 ```
-cd project-store-manager
 git clone git@github.com:JeffersonSimplicio/project-store-manager.git
 ```
 
-2. Instale as dependências
+2. Entre no diretório gerado
+```
+cd project-store-manager
+```
+
+3. Instale as dependências
 ```
 npm i
 ```
-3. Renomeie o arquivo `.env.example` para `.env` e edite os dados para os da sua maquina
+4. Renomeie o arquivo `.env.example` para `.env` e edite os dados para os da sua maquina
 
-4. Inicie a aplicação
+5. Inicialize a aplicação
 ```
 npm start
 ```
@@ -73,28 +77,33 @@ npm start
 
 ² - execute esses comandos no terminal do container
 
-1. Clone o projeto e entre no diretório
+1. Clone o projeto para sua maquina
 
 ```
-cd project-store-manager
 git clone git@github.com:JeffersonSimplicio/project-store-manager.git
 ```
-2. Suba o ambiente do docker
+
+2. Entre no diretório gerado
+```
+cd project-store-manager
+```
+
+3. Suba o ambiente do docker
 ```
 docker-compose up -d
 ```
 
-3. Acesse o terminal do contêiner
+4. Acesse o terminal do contêiner
 ```
 docker exec -it store_manager bash
 ```
 
-4. Instale as dependências
+5. Instale as dependências
 ```
 npm i
 ```
 
-5. Inicialize a aplicação
+6. Inicialize a aplicação
 ```
 npm start
 ```
