@@ -1,7 +1,7 @@
 <h1 align="center">STORE MANAGER 🛒</h1>
 
 ## Descrição
-Store Manager é um API Rest desenvolvida com uma arquitetura em camadas MSC (Model-Service-Controller), desenvolvida através de TDD(Test-driven development). Esse aplicação faz o gerenciamento de vendas do formado drop shipping, sendo capaz de criar, ler, editar e excluir um produto ou uma venda(CRUD). A aplicação foi desenvolvida em agosto de 2022, durante o Modulo de Back-End da [Trybe](https://www.betrybe.com/).
+Store Manager é um API Rest desenvolvida com uma arquitetura em camadas MSC (Model-Service-Controller), desenvolvida por TDD(Test-driven development). Essa aplicação faz o gerenciamento de vendas do formado drop shipping, conseguindo criar, ler, editar e excluir um produto ou uma venda(CRUD). A aplicação foi desenvolvida em agosto de 2022, durante o Módulo de Back-End da [Trybe](https://www.betrybe.com/).
 
 ### Esquema das tabelas
 ![image](./images/der.png)
@@ -17,7 +17,7 @@ Store Manager é um API Rest desenvolvida com uma arquitetura em camadas MSC (Mo
 
 O projeto foi desenvolvido em uma arquitetura em camadas **MSC** (Model-Service-Controller), a interação com o banco de dados **MySQL** foi feita de maneira direta através de querys. Sendo construída com o framework **Express** para estruturar endpoints e tratar erros. Usando os princípios dos **REST** para garantir qualidade e padrão do código, além de padronizar o formato que os dados seriam recebidos e retornados.
 
-O framework **Mocha** foi utilizado para estruturar os testes, as asserções utilizadas foram providas pela biblioteca **Chai**. Por tratar-se de testes unitários, apenas uma funcionalidade especifica era testada por vez, para que as demais funções não influenciassem nos teste, a biblioteca **Sinon** foi usada para criar dubles.
+O framework **Mocha** foi utilizado para estruturar os testes, as asserções utilizadas foram providas pela biblioteca **Chai**. Por tratar-se de testes unitários, apenas uma funcionalidade específica era testada por vez, para que as demais funções não influenciassem nos teste, a biblioteca **Sinon** foi usada para criar dubles.
 
 ## Utilização
 
