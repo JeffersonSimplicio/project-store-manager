@@ -3,6 +3,9 @@
 ## Descrição
 Store Manager é um API Rest desenvolvida com uma arquitetura em camadas MSC (Model-Service-Controller), desenvolvida através de TDD(Test-driven development). Esse aplicação faz o gerenciamento de vendas do formado drop shipping, sendo capaz de criar, ler, editar e excluir um produto ou uma venda(CRUD). A aplicação foi desenvolvida em agosto de 2022, durante o Modulo de Back-End da [Trybe](https://www.betrybe.com/).
 
+### Esquema das tabelas
+![image](./images/der.png)
+
 <!-- Olá, Tryber!
 
 # 🚧 README em construção 🚧
